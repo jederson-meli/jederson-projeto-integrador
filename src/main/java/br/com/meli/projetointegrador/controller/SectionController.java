@@ -1,8 +1,6 @@
 package br.com.meli.projetointegrador.controller;
 
 import br.com.meli.projetointegrador.dto.SectionPostDTO;
-import br.com.meli.projetointegrador.model.Section;
-import br.com.meli.projetointegrador.model.Warehouse;
 import br.com.meli.projetointegrador.service.SectionService;
 import br.com.meli.projetointegrador.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;

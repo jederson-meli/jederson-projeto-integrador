@@ -28,7 +28,12 @@ public class SectionController {
     }
 
     @GetMapping
-    public ResponseEntity<List<SectionPostDTO>> getAllSections() {
+    public ResponseEntity<List<SectionPostDTO>> findAllSections() {
         return new ResponseEntity<>(SectionPostDTO.map(sectionService.findAll()), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<SectionPostDTO> findById(@PathVariable Long id) {
+        return new ResponseEntity<>(SectionPostDTO.map(sectionService.findById(id)), HttpStatus.OK);
     }
 }

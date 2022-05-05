@@ -17,4 +17,6 @@ public interface SectionService {
     void updateCurrentSize(Integer amount, Long sectionId, boolean operation);
     List<Batch> checkBatchStockDueDate(Long id, Integer days);
     List<Batch> checkBatchStockDueDateByCategory(Integer days, String category, String order);
+
+    SectionPostDTO updateSection(Long id, SectionPostDTO sectionPostDTO);
 }

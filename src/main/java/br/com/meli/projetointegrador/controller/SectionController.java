@@ -36,4 +36,9 @@ public class SectionController {
     public ResponseEntity<SectionPostDTO> findById(@PathVariable Long id) {
         return new ResponseEntity<>(SectionPostDTO.map(sectionService.findById(id)), HttpStatus.OK);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<SectionPostDTO> updateSection(@PathVariable Long id, @RequestBody SectionPostDTO sectionPostDTO) {
+        return new ResponseEntity<>(sectionService.updateSection(id, sectionPostDTO), HttpStatus.CREATED);
+    }
 }

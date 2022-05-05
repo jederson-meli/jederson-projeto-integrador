@@ -71,6 +71,11 @@ public class GeneralExceptionHandler {
         ErrorDTO error = new ErrorDTO("SectionNotMatchWithWarehouseException", ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(SectionIsAlreadyInUse.class)
+    protected ResponseEntity<ErrorDTO> handleSectionIsAlreadyInUse(SectionIsAlreadyInUse ex){
+        ErrorDTO error = new ErrorDTO("SectionIsAlreadyInUse", ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
 
     @ExceptionHandler(InexistentStockManagerException.class)
     protected ResponseEntity<ErrorDTO> handleInexistentStockManagerException(InexistentStockManagerException ex) {

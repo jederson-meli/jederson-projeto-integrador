@@ -30,6 +30,11 @@ public class SectionServiceImpl implements SectionService {
     }
 
     @Override
+    public Section save(Section section) {
+        return sectionRepository.save(section);
+    }
+
+    @Override
     public void updateCurrentSize(Integer amount, Long sectionId, boolean operation) {
         Section section = findById(sectionId);
 

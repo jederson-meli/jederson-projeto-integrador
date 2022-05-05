@@ -5,6 +5,9 @@ import br.com.meli.projetointegrador.model.Section;
 import br.com.meli.projetointegrador.service.WarehouseService;
 import lombok.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Builder
 @Getter
 @Setter
@@ -33,6 +36,10 @@ public class SectionPostDTO {
 
     public static SectionPostDTO map(Section section) {
         return new SectionPostDTO(section.getId(), section.getName(), section.getCategory().toString(), section.getSize(), section.getCurrentSize(), section.getWarehouse().getId());
+    }
+
+    public static List<SectionPostDTO> map(List<Section> sectionList) {
+        return sectionList.stream().map(SectionPostDTO::map).collect(Collectors.toList());
     }
 }
 

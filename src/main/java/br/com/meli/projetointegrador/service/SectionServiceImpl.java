@@ -30,6 +30,11 @@ public class SectionServiceImpl implements SectionService {
     }
 
     @Override
+    public List<Section> findAll() {
+        return sectionRepository.findAll();
+    }
+
+    @Override
     public Section save(Section section) {
         return sectionRepository.save(section);
     }

@@ -11,6 +11,7 @@ import java.util.List;
  * */
 public interface SectionService {
     Section findById(Long id);
+    List<Section> findAll();
 
     Section save(Section section);
     void updateCurrentSize(Integer amount, Long sectionId, boolean operation);

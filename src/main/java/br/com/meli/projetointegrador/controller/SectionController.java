@@ -26,4 +26,9 @@ public class SectionController {
     public ResponseEntity<SectionPostDTO> postSection(@RequestBody SectionPostDTO sectionPostDTO) {
         return new ResponseEntity<>(SectionPostDTO.map(sectionService.save(SectionPostDTO.map(sectionPostDTO, warehouseService))), HttpStatus.CREATED);
     }
+
+    @GetMapping
+    public ResponseEntity<List<SectionPostDTO>> getAllSections() {
+        return new ResponseEntity<>(SectionPostDTO.map(sectionService.findAll()), HttpStatus.OK);
+    }
 }

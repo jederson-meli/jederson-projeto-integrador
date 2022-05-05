@@ -5,6 +5,7 @@ import br.com.meli.projetointegrador.model.Section;
 import br.com.meli.projetointegrador.service.WarehouseService;
 import lombok.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,11 +15,17 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SectionPostDTO {
+    @NotNull(message = "Id missing.")
     private Long id;
+    @NotNull(message = "Name missing.")
     private String name;
+    @NotNull(message = "Category missing.")
     private String category;
+    @NotNull(message = "Size missing.")
     private Integer size;
+    @NotNull(message = "CurrentSize missing.")
     private Integer currentSize;
+    @NotNull(message = "Warehouse missing.")
     private Long warehouse;
 
     public static Section map(SectionPostDTO sectionPostDTO, WarehouseService warehouseService) {

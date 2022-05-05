@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -23,7 +24,7 @@ public class SectionController {
 
     @PostMapping
     @PreAuthorize("hasRole('ROLE_STOCK_MANAGER')")
-    public ResponseEntity<SectionPostDTO> postSection(@RequestBody SectionPostDTO sectionPostDTO) {
+    public ResponseEntity<SectionPostDTO> postSection(@Valid @RequestBody SectionPostDTO sectionPostDTO) {
         return new ResponseEntity<>(SectionPostDTO.map(sectionService.save(SectionPostDTO.map(sectionPostDTO, warehouseService))), HttpStatus.CREATED);
     }
 
@@ -41,7 +42,7 @@ public class SectionController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_STOCK_MANAGER')")
-    public ResponseEntity<SectionPostDTO> updateSection(@PathVariable Long id, @RequestBody SectionPostDTO sectionPostDTO) {
+    public ResponseEntity<SectionPostDTO> updateSection(@PathVariable Long id, @Valid @RequestBody SectionPostDTO sectionPostDTO) {
         return new ResponseEntity<>(sectionService.updateSection(id, sectionPostDTO), HttpStatus.CREATED);
     }
 }

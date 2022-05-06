@@ -1,6 +1,9 @@
 package br.com.meli.projetointegrador.service;
 
+import br.com.meli.projetointegrador.dto.SectionPostDTO;
 import br.com.meli.projetointegrador.exception.InexistentSectionException;
+import br.com.meli.projetointegrador.exception.SectionIsAlreadyInUse;
+import br.com.meli.projetointegrador.exception.SectionUnavailableSpaceException;
 import br.com.meli.projetointegrador.model.Batch;
 import br.com.meli.projetointegrador.model.Category;
 import br.com.meli.projetointegrador.model.Section;
@@ -24,9 +27,21 @@ public class SectionServiceImpl implements SectionService {
 
     private SectionRepository sectionRepository;
 
+    private WarehouseService warehouseService;
+
     @Override
     public Section findById(Long id) {
         return sectionRepository.findById(id).orElseThrow(() -> new InexistentSectionException("Section " + id + " does not exists!"));
+    }
+
+    @Override
+    public List<Section> findAll() {
+        return sectionRepository.findAll();
+    }
+
+    @Override
+    public Section save(Section section) {
+        return sectionRepository.save(section);
     }
 
     @Override
@@ -40,6 +55,23 @@ public class SectionServiceImpl implements SectionService {
             section.setCurrentSize(section.getCurrentSize() - amount);
         }
         sectionRepository.save(section);
+    }
+
+    @Override
+    public SectionPostDTO updateSection(Long id, SectionPostDTO sectionPostDTO) {
+        Section section = findById(id);
+
+        if (section.getBatchList().size() > 0) {
+            throw new SectionIsAlreadyInUse("This section cannot be changed, it is already in use");
+        }
+        section.setName(sectionPostDTO.getName());
+        section.setCategory(Category.valueOf(sectionPostDTO.getCategory()));
+        section.setSize(sectionPostDTO.getSize());
+        section.setCurrentSize(sectionPostDTO.getCurrentSize());
+        section.setWarehouse(warehouseService.findById(sectionPostDTO.getWarehouse()));
+
+        sectionRepository.save(section);
+        return sectionPostDTO;
     }
 
     @Override

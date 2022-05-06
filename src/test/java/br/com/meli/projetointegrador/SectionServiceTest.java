@@ -1,5 +1,7 @@
 package br.com.meli.projetointegrador;
 
+import br.com.meli.projetointegrador.dto.SectionPostDTO;
+import br.com.meli.projetointegrador.exception.SectionIsAlreadyInUse;
 import br.com.meli.projetointegrador.model.*;
 import br.com.meli.projetointegrador.repository.SectionRepository;
 
@@ -11,6 +13,7 @@ import br.com.meli.projetointegrador.model.Warehouse;
 
 import br.com.meli.projetointegrador.service.SectionService;
 import br.com.meli.projetointegrador.service.SectionServiceImpl;
+import br.com.meli.projetointegrador.service.WarehouseService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -36,10 +39,13 @@ public class SectionServiceTest {
     @Mock
     private SectionRepository sectionRepository;
 
+    @Mock
+    private WarehouseService warehouseService;
+
     @BeforeEach
     private void initializeSectionService() {
         MockitoAnnotations.openMocks(this);
-        this.sectionService = new SectionServiceImpl(sectionRepository);
+        this.sectionService = new SectionServiceImpl(sectionRepository, warehouseService);
     }
 
     private List<Batch> generateBatchFreshList(Section section) {
@@ -59,13 +65,59 @@ public class SectionServiceTest {
         );
     }
 
+    private List<Section> generateSectionList() {
+        return Arrays.asList(
+                Section.builder().id(1L).name("Section 1").build(),
+                Section.builder().id(2L).name("Section 2").build(),
+                Section.builder().id(3L).name("Section 3").build()
+        );
+    }
+
+    @Test
+    public void saveTest() {
+        Section section = new Section(1L, "Section 1", Category.FRESH, 10, 10, new Warehouse(), Arrays.asList());
+        Mockito.when(sectionRepository.save(Mockito.any())).thenReturn(section);
+
+        assertEquals(section, sectionService.save(section));
+    }
+
     @Test
     public void findByIdTest() {
         Mockito.when(sectionRepository.findById(1L))
                 .thenReturn(java.util.Optional.of(new Section(1L, "Section 1", Category.FRESH, 10, 10, new Warehouse(), Arrays.asList(new Batch()))));
-            Section section = sectionService.findById(1L);
+        Section section = sectionService.findById(1L);
 
         assertEquals("Section 1", section.getName());
+    }
+
+    @Test
+    public void findAllTest() {
+        List<Section> sectionList = generateSectionList();
+        Mockito.when(sectionRepository.findAll()).thenReturn(sectionList);
+
+        assertEquals(sectionList, sectionService.findAll());
+    }
+
+    @Test
+    public void updateSectionTest() {
+        Section section = new Section(1L, "Section 1", Category.FRESH, 10, 10, new Warehouse(), Arrays.asList());
+        SectionPostDTO sectionPostDTO = SectionPostDTO.builder().id(1l).name("Section 1 updated").category("FROZEN").build();
+        Mockito.when(sectionRepository.findById(1L))
+                .thenReturn(java.util.Optional.of(section));
+
+        sectionService.updateSection(1L, sectionPostDTO);
+
+        assertEquals(section.getName(), sectionPostDTO.getName());
+    }
+
+    @Test
+    public void updateSectionTestFailed() {
+        Section section = new Section(1L, "Section 1", Category.FRESH, 10, 10, new Warehouse(), Arrays.asList(new Batch()));
+        SectionPostDTO sectionPostDTO = SectionPostDTO.builder().id(1l).name("Section 1 updated").category("FROZEN").build();
+        Mockito.when(sectionRepository.findById(1L))
+                .thenReturn(java.util.Optional.of(section));
+
+        assertThrows(SectionIsAlreadyInUse.class, () -> sectionService.updateSection(1L, sectionPostDTO));
     }
 
     @Test
@@ -120,6 +172,9 @@ public class SectionServiceTest {
 
         assertEquals(8, section.getCurrentSize());
 
+        sectionService.updateCurrentSize(2, 1L, true);
+
+        assertEquals(10, section.getCurrentSize());
     }
 
 }

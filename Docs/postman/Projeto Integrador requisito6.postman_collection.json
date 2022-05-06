@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "2923f2a4-231d-4cc8-bda6-253a93623794",
+		"_postman_id": "cde2467f-8bbc-4ee9-8da9-f33160ec93c6",
 		"name": "Projeto Integrador",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -569,6 +569,89 @@
 									"key": "productId",
 									"value": "1"
 								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Section",
+			"item": [
+				{
+					"name": "Get All Sections",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{$baseUrl}}/section",
+							"host": [
+								"{{$baseUrl}}"
+							],
+							"path": [
+								"section"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Section",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 7,\n    \"name\": \"Section 7\",\n    \"category\": \"FROZEN\",\n    \"size\": 100,\n    \"currentSize\": 100,\n    \"warehouse\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{$baseUrl}}/section",
+							"host": [
+								"{{$baseUrl}}"
+							],
+							"path": [
+								"section"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Section By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{$baseUrl}}/section",
+							"host": [
+								"{{$baseUrl}}"
+							],
+							"path": [
+								"section"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Section",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{$baseUrl}}/section/7",
+							"host": [
+								"{{$baseUrl}}"
+							],
+							"path": [
+								"section",
+								"7"
 							]
 						}
 					},
